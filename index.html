@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LKPD Kimia XI: Teori Tumbukan dan Laju Reaksi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Nunito+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f3f6ff; --ink:#151834; --muted:#565c80; --paper:#ffffff; --paper2:#eaf0ff;
+  --line:#c5cff0; --rule:#e4e9fb; --grid:rgba(61,61,245,.07);
+  --primary:#3535e8; --coral:#f2455c; --sun:#ffc21a; --mint:#0fa77c; --violet:#8a4fe0;
+  --on-primary:#ffffff; --key-bg:#fff7d6; --key-line:#e0b400;
+  --font-h:"Bricolage Grotesque","Trebuchet MS","Segoe UI",sans-serif;
+  --font-b:"Nunito Sans","Segoe UI",Roboto,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c0f2c; --ink:#eef0ff; --muted:#a6acd6; --paper:#161a44; --paper2:#1d2257;
+    --line:#333a78; --rule:#232963; --grid:rgba(140,150,255,.09);
+    --primary:#8f8fff; --coral:#ff7b8d; --sun:#ffd24d; --mint:#3ddbab; --violet:#b58bff;
+    --on-primary:#0c0f2c; --key-bg:#3a3411; --key-line:#c9a300;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c0f2c; --ink:#eef0ff; --muted:#a6acd6; --paper:#161a44; --paper2:#1d2257;
+  --line:#333a78; --rule:#232963; --grid:rgba(140,150,255,.09);
+  --primary:#8f8fff; --coral:#ff7b8d; --sun:#ffd24d; --mint:#3ddbab; --violet:#b58bff;
+  --on-primary:#0c0f2c; --key-bg:#3a3411; --key-line:#c9a300;
+}
+html{height:auto;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;background-color:var(--bg);color:var(--ink);font-family:var(--font-b);font-size:17px;line-height:1.6;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;
+}
+.wrap{max-width:980px;margin:0 auto;padding:0 18px}
+h1,h2,h3{font-family:var(--font-h);line-height:1.15;margin:0}
+p{margin:0 0 .8em}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+/* HERO */
+.hero{padding:34px 0 26px}
+.hero-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:20px;align-items:center}
+.hero h1{font-size:clamp(2.2rem,6.4vw,4.1rem);font-weight:800;letter-spacing:-.02em}
+.hero .ask{font-family:var(--font-h);font-weight:600;font-size:clamp(1.15rem,2.6vw,1.5rem);margin:14px 0 8px;color:var(--primary)}
+.hero p.sub{color:var(--muted);max-width:52ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.chip{background:var(--paper);border:2px solid var(--line);border-radius:999px;padding:3px 14px;font-weight:800;font-size:.85rem}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}
+.btn{font:inherit;font-weight:800;cursor:pointer;border:2px solid var(--ink);background:var(--paper);color:var(--ink);border-radius:12px;padding:8px 16px;box-shadow:3px 3px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.btn.primary{background:var(--primary);color:var(--on-primary)}
+.btn.sun{background:var(--sun);color:#151834}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
+.btn[aria-pressed="true"]{background:var(--sun);color:#151834}
+.burst{width:100%;height:auto;display:block}
+
+/* identity */
+.ident-card{margin-top:20px;background:var(--paper);border:2px solid var(--ink);border-radius:16px;padding:14px 16px;display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.ident-card label{font-weight:800;font-size:.85rem;color:var(--muted);display:block}
+.ident{width:100%;font:inherit;border:0;border-bottom:2px dashed var(--line);background:transparent;color:var(--ink);padding:4px 2px;border-radius:0}
+.ident:focus{outline:none;border-bottom-color:var(--primary)}
+
+/* NAV */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:2px solid var(--ink);margin-top:10px}
+.nav .wrap{display:flex;gap:8px;overflow-x:auto;padding-top:8px;padding-bottom:8px;scrollbar-width:thin}
+.nav a{flex:none;text-decoration:none;color:var(--ink);font-weight:800;font-size:.9rem;border:2px solid var(--line);background:var(--paper);border-radius:999px;padding:3px 14px}
+.nav a:hover{border-color:var(--primary)}
+
+/* SECTIONS */
+section.misi{--acc:var(--primary);margin:34px 0;background:var(--paper);border:2px solid var(--ink);border-left:12px solid var(--acc);border-radius:6px 22px 22px 6px;padding:22px 22px 10px;box-shadow:6px 6px 0 var(--acc)}
+section.misi.m1{--acc:var(--coral)} section.misi.m2{--acc:var(--primary)} section.misi.m3{--acc:var(--mint)}
+section.misi.m4{--acc:var(--sun)} section.misi.m5{--acc:var(--violet)} section.misi.m6{--acc:var(--primary)} section.misi.m7{--acc:var(--coral)}
+section.info{margin:26px 0;background:var(--paper);border:2px solid var(--ink);border-radius:18px;padding:18px 22px}
+.mhead{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:8px}
+.badge{background:var(--acc);color:#151834;font-family:var(--font-h);font-weight:800;border:2px solid var(--ink);border-radius:10px;padding:2px 12px;font-size:1rem;transform:rotate(-2deg)}
+.mhead h2{font-size:clamp(1.4rem,3.6vw,2rem);font-weight:800}
+.lead{color:var(--muted);max-width:68ch}
+.tag{display:inline-block;font-weight:800;font-size:.8rem;border-radius:6px;padding:0 8px;background:var(--paper2);border:1.5px solid var(--line);margin-right:6px}
+
+/* questions & answers */
+.q{margin:18px 0;padding-top:4px}
+.q > .qt{font-weight:800;margin-bottom:6px}
+.q > .qt b.no{display:inline-block;min-width:2.3em;color:var(--acc);filter:brightness(.85)}
+.ans{width:100%;min-height:86px;display:block;font:inherit;color:var(--ink);line-height:28px;padding:0 12px;border:2px solid var(--line);border-radius:10px;resize:vertical;background-color:var(--paper);
+  background-image:repeating-linear-gradient(transparent 0 26px,var(--rule) 26px 28px);background-attachment:local}
+.ans:focus{outline:none;border-color:var(--primary)}
+.ans.short{min-height:58px}
+.key{display:none;margin-top:8px;background:var(--key-bg);border:2px dashed var(--key-line);border-radius:10px;padding:8px 14px;font-size:.95rem}
+.key::before{content:"Kunci guru: ";font-weight:800}
+body.teacher .key{display:block}
+
+/* mission 1 cards */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:14px;margin:14px 0}
+.case{border:2px solid var(--ink);border-radius:14px 14px 14px 4px;padding:12px 14px;background:var(--paper2)}
+.case:nth-child(3n+2){border-radius:14px 4px 14px 14px}
+.case .em{font-size:2rem;line-height:1}
+.case h3{font-size:1.05rem;margin:6px 0 4px}
+.case p{font-size:.95rem;margin-bottom:8px}
+.case .ans{min-height:58px}
+
+/* mission 2 */
+.syarat{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:14px 0}
+.syarat div{border:2px solid var(--ink);border-radius:14px;padding:12px 14px;background:var(--paper2)}
+.syarat .ic{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--acc);border:2px solid var(--ink);font-family:var(--font-h);font-weight:800;color:#151834}
+.syarat h3{font-size:1.1rem;margin:6px 0 4px}
+.syarat p{font-size:.95rem;margin:0}
+.callout{border:2px solid var(--ink);border-left:10px solid var(--sun);border-radius:8px 14px 14px 8px;background:var(--paper2);padding:10px 16px;margin:14px 0}
+.fig{background:var(--paper2);border:2px solid var(--ink);border-radius:14px;padding:10px;margin:14px 0;overflow-x:auto}
+.fig svg{min-width:460px;width:100%;height:auto;display:block}
+.fig figcaption{font-size:.9rem;color:var(--muted);text-align:center;margin-top:4px}
+.fig text{font-family:var(--font-b);fill:var(--ink)}
+
+/* LAB */
+.lab{background:#0d1033;color:#eef0ff;border:2px solid var(--ink);border-radius:16px;padding:14px;margin:16px 0}
+.lab canvas{width:100%;height:auto;display:block;border-radius:10px;background:#141a52;border:2px solid #4b53b8}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.85rem;margin:8px 0 2px;color:#c9cdf5}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:5px;vertical-align:-1px;border:1.5px solid #fff}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px 18px;margin:12px 0}
+.controls label{font-weight:800;font-size:.92rem;display:block}
+.controls output{color:var(--sun);font-family:var(--font-h);font-size:1.05rem}
+.controls input[type=range]{width:100%;accent-color:#ffc21a;height:28px}
+.switch{display:flex;align-items:center;gap:10px;font-weight:800;cursor:pointer;min-height:40px}
+.switch input{width:22px;height:22px;accent-color:#3ddbab}
+.lab .btn{box-shadow:3px 3px 0 #000;border-color:#000}
+.lab-actions{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 10px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+.stat{background:#1c2266;border:2px solid #4b53b8;border-radius:10px;padding:6px 10px}
+.stat small{display:block;font-size:.78rem;color:#b9beee}
+.stat strong{font-family:var(--font-h);font-size:1.5rem}
+.stat.good strong{color:#3ddbab} .stat.bad strong{color:#ff7b8d} .stat.warn strong{color:#ffd24d}
+.result{margin-top:10px;padding:8px 14px;border-radius:10px;background:#0fa77c;color:#06241b;font-weight:800;display:none}
+.result.on{display:block}
+.timer{font-family:var(--font-h);font-weight:800;color:var(--sun)}
+
+/* tables */
+.tablewrap{overflow-x:auto;margin:10px 0;border:2px solid var(--ink);border-radius:12px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;min-width:560px}
+th,td{border:1.5px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top;font-size:.95rem}
+th{background:var(--paper2);font-weight:800}
+.cell{width:100%;min-width:72px;font:inherit;color:var(--ink);background:transparent;border:0;border-bottom:2px dashed var(--line);padding:4px 2px}
+.cell:focus{outline:none;border-bottom-color:var(--primary)}
+textarea.cell{resize:vertical;min-height:64px;border:1.5px dashed var(--line);border-radius:6px;padding:4px 6px}
+td.pre{background:var(--paper2);font-weight:600}
+
+/* cube */
+.cube-box{display:grid;grid-template-columns:230px 1fr;gap:18px;align-items:center;margin:14px 0}
+.cube-box svg{width:230px;height:230px}
+.kbtns{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.kbtns .btn{padding:4px 14px}
+.cubestats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.cubestats div{border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:var(--paper2)}
+.cubestats small{display:block;color:var(--muted);font-size:.8rem}
+.cubestats strong{font-family:var(--font-h);font-size:1.35rem}
+
+.foot{text-align:center;color:var(--muted);font-size:.9rem;padding:20px 0 40px}
+.selfcheck label{display:flex;gap:10px;align-items:flex-start;padding:4px 0;font-weight:600}
+.selfcheck input{width:22px;height:22px;flex:none;accent-color:var(--primary)}
+
+@media (max-width:760px){
+  .hero-grid{grid-template-columns:1fr}
+  .burst{max-width:320px;margin:0 auto}
+  .ident-card{grid-template-columns:1fr 1fr}
+  .cube-box{grid-template-columns:1fr;justify-items:center}
+  .cube-box > div:last-child{width:100%}
+  section.misi{padding:18px 14px 6px;border-left-width:9px}
+}
+@media print{
+  :root{padding:0}
+  body{background:#fff;color:#000;font-size:12pt;background-image:none}
+  .nav,.tools,.lab-actions,.controls,.kbtns{display:none!important}
+  section.misi,section.info{box-shadow:none;break-inside:avoid-page;margin:14px 0}
+  .lab{background:#fff;color:#000;border:1px solid #000}
+  .lab canvas{display:none}
+  .btn{display:none}
+  .key{display:none}
+  body.teacher .key{display:block}
+}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="chips">
+          <span class="chip">LKPD Kimia</span><span class="chip">Kelas XI</span><span class="chip">Laju reaksi</span><span class="chip">±90 menit</span>
+        </div>
+        <h1>Teori Tumbukan</h1>
+        <p class="ask">Kenapa gula pasir larut lebih cepat daripada gula batu?</p>
+        <p class="sub">Di balik teh manis, api sate, dan susu yang basi ada satu aturan yang sama: partikel harus bertabrakan dengan cara yang tepat. Selesaikan tujuh misi ini dan buktikan sendiri.</p>
+        <div class="tools">
+          <a class="btn primary" href="#misi1" style="text-decoration:none">Mulai misi 1</a>
+          <button class="btn" id="btnTeacher" aria-pressed="false" type="button">Mode guru</button>
+          <button class="btn" id="btnPrint" type="button">Cetak</button>
+        </div>
+      </div>
+      <svg class="burst" viewBox="0 0 300 260" role="img" aria-label="Ilustrasi dua partikel bertumbukan">
+        <polygon points="150,20 168,80 228,52 200,110 262,124 204,152 240,208 178,188 168,246 140,190 92,232 106,170 40,166 96,132 50,80 116,96" fill="#ffc21a" stroke="#151834" stroke-width="4" stroke-linejoin="round"/>
+        <circle cx="86" cy="128" r="46" fill="#3d7bff" stroke="#151834" stroke-width="4"/>
+        <circle cx="214" cy="128" r="46" fill="#ff9f1c" stroke="#151834" stroke-width="4"/>
+        <circle cx="120" cy="128" r="9" fill="#fff" stroke="#151834" stroke-width="3"/>
+        <circle cx="180" cy="128" r="9" fill="#fff" stroke="#151834" stroke-width="3"/>
+        <path d="M20 60 l24 14 M18 200 l26 -14 M282 62 l-24 14 M284 198 l-26 -14" stroke="#f2455c" stroke-width="6" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="ident-card">
+      <div><label for="idNama">Nama</label><input class="ident" id="idNama" type="text" autocomplete="off"></div>
+      <div><label for="idKelas">Kelas</label><input class="ident" id="idKelas" type="text" autocomplete="off"></div>
+      <div><label for="idKel">Kelompok</label><input class="ident" id="idKel" type="text" autocomplete="off"></div>
+      <div><label for="idTgl">Tanggal</label><input class="ident" id="idTgl" type="text" autocomplete="off"></div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Navigasi misi"><div class="wrap">
+  <a href="#tujuan">Tujuan</a><a href="#misi1">Misi 1</a><a href="#misi2">Misi 2</a><a href="#misi3">Misi 3</a><a href="#misi4">Misi 4</a><a href="#misi5">Misi 5</a><a href="#misi6">Misi 6</a><a href="#misi7">Misi 7</a><a href="#refleksi">Refleksi</a>
+</div></nav>
+
+<main class="wrap">
+
+<section class="info" id="tujuan">
+  <div class="mhead"><h2>Yang akan kamu capai</h2></div>
+  <p>Setelah mengerjakan LKPD ini, kamu mampu:</p>
+  <ol>
+    <li>Menjelaskan tiga syarat tumbukan efektif: partikel bertumbukan, energinya cukup, dan orientasinya tepat.</li>
+    <li>Menjelaskan pengaruh konsentrasi, luas permukaan, suhu, dan katalis terhadap laju reaksi memakai teori tumbukan.</li>
+    <li>Mengaitkan konsep tersebut dengan kejadian sehari-hari dan menghitung pengaruh suhu terhadap waktu reaksi.</li>
+  </ol>
+  <p><b>Cara mengerjakan:</b> kerja berkelompok 3 sampai 4 orang. Tulis jawaban di kolom bergaris, jalankan lab virtual di Misi 3, dan diskusikan dulu sebelum menulis. Jawabanmu tersimpan otomatis di peramban ini.</p>
+</section>
+
+<!-- MISI 1 -->
+<section class="misi m1" id="misi1">
+  <div class="mhead"><span class="badge">Misi 1</span><h2>Detektif kejadian sehari-hari</h2></div>
+  <p class="lead">Enam kejadian ini pasti pernah kamu alami. Semuanya menyangkut reaksi yang berlangsung cepat atau lambat. Tebak dulu penyebabnya, belum perlu rumus.</p>
+  <div class="cases">
+    <div class="case"><div class="em">🍵</div><h3>Teh manis di kantin</h3><p>Gula pasir larut hampir seketika di teh panas, sedangkan gula batu butuh waktu lama.</p><textarea class="ans short" aria-label="Tebakan kejadian 1"></textarea></div>
+    <div class="case"><div class="em">🥛</div><h3>Susu di meja dan di kulkas</h3><p>Susu yang ditinggal di meja siang hari cepat basi. Yang disimpan di kulkas awet berhari-hari.</p><textarea class="ans short" aria-label="Tebakan kejadian 2"></textarea></div>
+    <div class="case"><div class="em">🔥</div><h3>Arang sate dikipas</h3><p>Bara arang menyala lebih terang saat dikipas, dan arangnya lebih cepat habis.</p><textarea class="ans short" aria-label="Tebakan kejadian 3"></textarea></div>
+    <div class="case"><div class="em">🥩</div><h3>Panci presto</h3><p>Daging empuk dalam 30 menit di panci presto, tetapi butuh 2 jam di panci biasa.</p><textarea class="ans short" aria-label="Tebakan kejadian 4"></textarea></div>
+    <div class="case"><div class="em">💊</div><h3>Tablet vitamin C berbusa</h3><p>Tablet effervescent cepat berbusa di air hangat, dan lambat di air es.</p><textarea class="ans short" aria-label="Tebakan kejadian 5"></textarea></div>
+    <div class="case"><div class="em">🍚</div><h3>Mengunyah nasi</h3><p>Nasi yang dikunyah lama terasa manis, karena enzim di air liur menguraikan pati menjadi gula.</p><textarea class="ans short" aria-label="Tebakan kejadian 6"></textarea></div>
+  </div>
+  <div class="q"><div class="qt"><b class="no">1.1</b>Kelompokkan keenam kejadian: mana yang menurutmu dipercepat oleh panas, mana oleh ukuran partikel yang lebih kecil, mana oleh jumlah zat, dan mana oleh "penolong" reaksi?</div><textarea class="ans"></textarea>
+    <div class="key">Gula pasir: luas permukaan. Susu dan tablet: suhu. Arang dikipas: konsentrasi oksigen. Presto: suhu (tekanan naik, titik didih naik). Nasi: katalis (enzim amilase), ditambah luas permukaan karena dikunyah.</div></div>
+  <div class="q"><div class="qt"><b class="no">1.2</b>Tulis hipotesismu: pada tingkat partikel, apa yang berubah sehingga reaksi menjadi lebih cepat?</div><textarea class="ans"></textarea>
+    <div class="key">Terima jawaban yang menyebut partikel lebih sering atau lebih keras bertabrakan. Jawaban ini akan diuji di Misi 3.</div></div>
+</section>
+
+<!-- MISI 2 -->
+<section class="misi m2" id="misi2">
+  <div class="mhead"><span class="badge">Misi 2</span><h2>Kenalan dengan teori tumbukan</h2></div>
+  <p class="lead">Menurut teori tumbukan, reaksi terjadi karena partikel pereaksi bertabrakan. Tetapi tidak semua tabrakan menghasilkan zat baru. Hanya tumbukan efektif yang berhasil.</p>
+  <div class="callout"><b>Analogi tos.</b> Dua temanmu mau tos. Mereka harus bertemu (bertumbukan), tos harus bertenaga (energi cukup), dan telapak tangan harus bertemu telapak tangan, bukan punggung tangan (orientasi tepat). Salah satu gagal, tosnya gagal.</div>
+  <div class="syarat" style="--acc:var(--primary)">
+    <div><span class="ic">1</span><h3>Bertumbukan</h3><p>Partikel harus saling bertemu. Makin sering bertemu, makin banyak peluang bereaksi.</p></div>
+    <div style="--acc:var(--sun)"><span class="ic" style="background:var(--sun)">2</span><h3>Energi cukup</h3><p>Energi tumbukan harus sama dengan atau lebih besar dari energi aktivasi (Ea), yaitu energi minimum agar reaksi berlangsung.</p></div>
+    <div><span class="ic" style="background:var(--mint)">3</span><h3>Orientasi tepat</h3><p>Bagian partikel yang bertabrakan harus bagian yang memang bereaksi.</p></div>
+  </div>
+  <figure class="fig">
+    <svg viewBox="0 0 540 170" role="img" aria-label="Tiga contoh tumbukan: energi kurang, orientasi salah, dan efektif">
+      <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#f2455c"/></marker><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#0fa77c"/></marker></defs>
+      <!-- panel 1 energi kurang -->
+      <g>
+        <circle cx="45" cy="70" r="15" fill="#3d7bff" stroke="#151834" stroke-width="2.5"/><circle cx="73" cy="70" r="15" fill="#ff9f1c" stroke="#151834" stroke-width="2.5"/>
+        <circle cx="107" cy="70" r="15" fill="#12b886" stroke="#151834" stroke-width="2.5"/><circle cx="135" cy="70" r="15" fill="#ff6fa1" stroke="#151834" stroke-width="2.5"/>
+        <line x1="22" y1="112" x2="42" y2="112" stroke="#f2455c" stroke-width="3" marker-end="url(#ar)"/>
+        <line x1="158" y1="112" x2="138" y2="112" stroke="#f2455c" stroke-width="3" marker-end="url(#ar)"/>
+        <text x="90" y="30" text-anchor="middle" font-size="14" font-weight="800">A. Pelan, memantul</text>
+        <text x="90" y="145" text-anchor="middle" font-size="12">Energi kurang dari Ea</text>
+      </g>
+      <!-- panel 2 orientasi salah -->
+      <g transform="translate(180,0)">
+        <circle cx="45" cy="70" r="15" fill="#ff9f1c" stroke="#151834" stroke-width="2.5"/><circle cx="73" cy="70" r="15" fill="#3d7bff" stroke="#151834" stroke-width="2.5"/>
+        <circle cx="101" cy="70" r="15" fill="#12b886" stroke="#151834" stroke-width="2.5"/><circle cx="129" cy="70" r="15" fill="#ff6fa1" stroke="#151834" stroke-width="2.5"/>
+        <line x1="18" y1="112" x2="40" y2="112" stroke="#0fa77c" stroke-width="3" marker-end="url(#ar2)"/>
+        <line x1="156" y1="112" x2="134" y2="112" stroke="#0fa77c" stroke-width="3" marker-end="url(#ar2)"/>
+        <text x="90" y="30" text-anchor="middle" font-size="14" font-weight="800">B. Cepat, salah sisi</text>
+        <text x="90" y="145" text-anchor="middle" font-size="12">Ujung biru menabrak hijau</text>
+      </g>
+      <!-- panel 3 efektif -->
+      <g transform="translate(360,0)">
+        <polygon points="90,44 96,60 112,52 104,68 122,72 104,80 112,96 96,88 90,104 84,88 68,96 76,80 58,72 76,68 68,52 84,60" fill="#ffc21a" stroke="#151834" stroke-width="2" opacity=".9"/>
+        <circle cx="42" cy="70" r="15" fill="#3d7bff" stroke="#151834" stroke-width="2.5"/><circle cx="70" cy="70" r="15" fill="#ff9f1c" stroke="#151834" stroke-width="2.5"/>
+        <circle cx="98" cy="70" r="15" fill="#12b886" stroke="#151834" stroke-width="2.5"/><circle cx="126" cy="70" r="15" fill="#ff6fa1" stroke="#151834" stroke-width="2.5"/>
+        <line x1="14" y1="112" x2="38" y2="112" stroke="#0fa77c" stroke-width="3" marker-end="url(#ar2)"/>
+        <line x1="154" y1="112" x2="130" y2="112" stroke="#0fa77c" stroke-width="3" marker-end="url(#ar2)"/>
+        <text x="90" y="30" text-anchor="middle" font-size="14" font-weight="800">C. Cepat, sisi tepat</text>
+        <text x="90" y="145" text-anchor="middle" font-size="12">Tumbukan efektif: bereaksi</text>
+      </g>
+    </svg>
+    <figcaption>Dua molekul (biru-oranye dan hijau-merah muda) hanya bereaksi jika ujung oranye menabrak ujung hijau dengan energi cukup.</figcaption>
+  </figure>
+  <div class="q"><div class="qt"><b class="no">2.1</b>Pada gambar, tumbukan mana yang efektif? Beri alasan untuk tumbukan A dan B yang gagal.</div><textarea class="ans"></textarea>
+    <div class="key">Hanya C. A gagal karena energi kurang dari Ea. B gagal karena orientasi salah (ujung yang bertabrakan bukan ujung reaktif).</div></div>
+  <div class="q"><div class="qt"><b class="no">2.2</b>Dalam segenggam gas atau larutan, jumlah tumbukan per detik luar biasa banyak, tetapi reaksi berjalan berjam-jam. Mengapa?</div><textarea class="ans"></textarea>
+    <div class="key">Sebagian besar tumbukan tidak efektif: energi kurang atau orientasi salah. Hanya sebagian kecil yang menghasilkan reaksi.</div></div>
+  <div class="q"><div class="qt"><b class="no">2.3</b>Jelaskan energi aktivasi dengan kata-katamu sendiri, lalu beri satu perumpamaan dari kehidupanmu (misalnya menyalakan korek api).</div><textarea class="ans"></textarea>
+    <div class="key">Energi aktivasi adalah energi minimum yang harus dimiliki partikel saat bertumbukan agar reaksi terjadi. Korek api perlu digesek (diberi energi) dulu sebelum menyala sendiri.</div></div>
+</section>
+
+<!-- MISI 3 -->
+<section class="misi m3" id="misi3">
+  <div class="mhead"><span class="badge">Misi 3</span><h2>Lab virtual tumbukan</h2></div>
+  <p class="lead">Partikel biru dan oranye bereaksi jika bertumbukan efektif. Ubah suhu, jumlah partikel, dan katalis, lalu tekan <b>Ukur 15 detik</b>. Titik putih pada tiap partikel adalah sisi reaktifnya.</p>
+  <div class="lab">
+    <canvas id="sim" width="640" height="360" aria-label="Simulasi tumbukan partikel"></canvas>
+    <div class="legend" aria-hidden="true">
+      <span><i class="dot" style="background:#3d7bff"></i>Pereaksi A</span>
+      <span><i class="dot" style="background:#ff9f1c"></i>Pereaksi B</span>
+      <span><i class="dot" style="background:#12b886"></i>Baru bereaksi</span>
+      <span><i class="dot" style="background:#ff7b8d"></i>Gagal: energi kurang</span>
+      <span><i class="dot" style="background:#ffd24d"></i>Gagal: orientasi salah</span>
+    </div>
+    <div class="controls">
+      <div><label for="cTemp">Suhu: <output id="oTemp">40</output> °C</label><input type="range" id="cTemp" min="20" max="80" step="5" value="40"></div>
+      <div><label for="cConc">Jumlah partikel tiap jenis (konsentrasi): <output id="oConc">20</output></label><input type="range" id="cConc" min="5" max="40" step="5" value="20"></div>
+      <div><label class="switch"><input type="checkbox" id="cCat"> Tambahkan katalis</label><small style="color:#b9beee">Katalis menurunkan energi aktivasi.</small></div>
+    </div>
+    <div class="lab-actions">
+      <button class="btn sun" id="bMeasure" type="button">Ukur 15 detik</button>
+      <button class="btn" id="bPause" type="button">Jeda</button>
+      <button class="btn" id="bReset" type="button">Reset hitungan</button>
+      <span class="timer" id="tTimer" aria-live="polite"></span>
+    </div>
+    <div class="stats">
+      <div class="stat"><small>Total tumbukan A dengan B</small><strong id="sTot">0</strong></div>
+      <div class="stat good"><small>Tumbukan efektif</small><strong id="sEff">0</strong></div>
+      <div class="stat bad"><small>Gagal: energi kurang</small><strong id="sNoE">0</strong></div>
+      <div class="stat warn"><small>Gagal: orientasi salah</small><strong id="sNoO">0</strong></div>
+      <div class="stat"><small>Persen efektif</small><strong id="sPct">0%</strong></div>
+    </div>
+    <div class="result" id="rBox" role="status"></div>
+  </div>
+  <p><span class="tag">Tips</span>Tumbukan bersifat acak, jadi hasil tiap ukuran bisa berbeda. Ukur dua kali lalu rata-ratakan agar datamu lebih meyakinkan.</p>
+
+  <h3 style="margin:18px 0 6px">Data percobaan</h3>
+  <p><b>Laju reaksi</b> = tumbukan efektif ÷ 15 detik. Isi tabel dengan hasil lab virtual.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Percobaan</th><th>Kondisi</th><th>Total tumbukan</th><th>Tumbukan efektif</th><th>Laju (per detik)</th></tr></thead>
+    <tbody>
+      <tr><td class="pre" rowspan="3">A. Pengaruh suhu<br><small>(partikel 20, tanpa katalis)</small></td><td class="pre">20 °C</td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td></tr>
+      <tr><td class="pre">40 °C</td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td></tr>
+      <tr><td class="pre">70 °C</td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td></tr>
+      <tr><td class="pre" rowspan="3">B. Pengaruh konsentrasi<br><small>(40 °C, tanpa katalis)</small></td><td class="pre">10 partikel</td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td></tr>
+      <tr><td class="pre">20 partikel</td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td></tr>
+      <tr><td class="pre">40 partikel</td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td></tr>
+      <tr><td class="pre" rowspan="2">C. Pengaruh katalis<br><small>(40 °C, partikel 20)</small></td><td class="pre">Tanpa katalis</td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td></tr>
+      <tr><td class="pre">Dengan katalis</td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td><td><input class="cell" type="text" inputmode="decimal"></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="q"><div class="qt"><b class="no">3.1</b>Percobaan A: bagaimana suhu memengaruhi total tumbukan dan tumbukan efektif? Mana yang naik lebih tajam? Jelaskan dari sisi gerak dan energi partikel.</div><textarea class="ans"></textarea>
+    <div class="key">Suhu naik, partikel bergerak lebih cepat sehingga total tumbukan naik sedikit, tetapi tumbukan efektif naik jauh lebih tajam karena lebih banyak partikel berenergi ≥ Ea. Kenaikan suhu terutama menambah <i>energi</i> tumbukan, bukan hanya <i>frekuensi</i>.</div></div>
+  <div class="q"><div class="qt"><b class="no">3.2</b>Percobaan B: apa yang terjadi pada total tumbukan dan laju reaksi saat partikel diperbanyak dua kali lipat? Apakah persen tumbukan efektif ikut berubah? Mengapa?</div><textarea class="ans"></textarea>
+    <div class="key">Total tumbukan naik (bisa lebih dari dua kali karena pasangan A-B bertambah), laju naik. Persen efektif kira-kira tetap karena energi dan orientasi tiap tumbukan tidak berubah, hanya jumlah kesempatan bertemu yang bertambah.</div></div>
+  <div class="q"><div class="qt"><b class="no">3.3</b>Percobaan C: pada suhu dan konsentrasi sama, mengapa katalis menaikkan tumbukan efektif? Apakah jumlah total tumbukan berubah?</div><textarea class="ans"></textarea>
+    <div class="key">Katalis menurunkan energi aktivasi, sehingga lebih banyak tumbukan yang energinya sudah cukup. Total tumbukan hampir tidak berubah, persen efektifnya naik.</div></div>
+  <div class="q"><div class="qt"><b class="no">3.4</b>Periksa hipotesismu di Misi 1.2. Benar, sebagian benar, atau perlu direvisi? Tulis revisinya.</div><textarea class="ans"></textarea></div>
+</section>
+
+<!-- MISI 4 -->
+<section class="misi m4" id="misi4">
+  <div class="mhead"><span class="badge">Misi 4</span><h2>Membelah kubus, menambah permukaan</h2></div>
+  <p class="lead">Di lab virtual tadi, luas permukaan belum diuji. Bayangkan sebuah kubus zat padat berusuran 4 cm. Belah menjadi kubus kecil dan lihat apa yang terjadi pada total luas permukaannya.</p>
+  <div class="cube-box">
+    <svg id="cubeSvg" viewBox="0 0 230 230" role="img" aria-label="Kubus yang dibelah"></svg>
+    <div>
+      <div class="kbtns" role="group" aria-label="Jumlah belahan per rusuk">
+        <button class="btn" type="button" data-k="1" aria-pressed="true">Utuh</button>
+        <button class="btn" type="button" data-k="2" aria-pressed="false">Belah 2 × 2 × 2</button>
+        <button class="btn" type="button" data-k="4" aria-pressed="false">Belah 4 × 4 × 4</button>
+        <button class="btn" type="button" data-k="8" aria-pressed="false">Belah 8 × 8 × 8</button>
+      </div>
+      <div class="cubestats">
+        <div><small>Jumlah kubus</small><strong id="cN">1</strong></div>
+        <div><small>Sisi tiap kubus</small><strong id="cS">4 cm</strong></div>
+        <div><small>Luas permukaan total</small><strong id="cA">96 cm²</strong></div>
+        <div><small>Dibanding kubus utuh</small><strong id="cX">1×</strong></div>
+      </div>
+    </div>
+  </div>
+  <div class="q"><div class="qt"><b class="no">4.1</b>Isi rumus: satu kubus bersisi s punya luas permukaan 6s². Jika kubus 4 cm dibelah menjadi k bagian per rusuk, tulis rumus luas total dan buktikan dengan k = 2.</div><textarea class="ans"></textarea>
+    <div class="key">Sisi kecil = 4/k, jumlah kubus = k³, luas total = k³ × 6(4/k)² = 96k cm². Untuk k = 2: 8 kubus × 6 × 4 = 192 cm², dua kali luas semula.</div></div>
+  <div class="q"><div class="qt"><b class="no">4.2</b>Jelaskan dengan teori tumbukan mengapa serbuk lebih cepat bereaksi daripada gumpalan dengan massa sama.</div><textarea class="ans"></textarea>
+    <div class="key">Luas permukaan yang bersentuhan dengan pereaksi lain bertambah, sehingga peluang partikel bertumbukan makin besar, jumlah tumbukan efektif per detik naik, laju naik.</div></div>
+  <div class="q"><div class="qt"><b class="no">4.3</b>Sebutkan dua contoh di rumah atau sekolah yang memanfaatkan prinsip ini (misalnya di dapur atau kantin).</div><textarea class="ans"></textarea>
+    <div class="key">Contoh: kentang dipotong kecil lebih cepat matang, bawang diiris tipis, kayu dibelah untuk perapian, obat ditumbuk atau dikunyah, gula halus dan kopi bubuk lebih cepat larut, obat maag dikunyah.</div></div>
+</section>
+
+<!-- MISI 5 -->
+<section class="misi m5" id="misi5">
+  <div class="mhead"><span class="badge">Misi 5</span><h2>Membaca peta energi</h2></div>
+  <p class="lead">Diagram energi menunjukkan "bukit" yang harus dilewati pereaksi sebelum menjadi produk. Semakin rendah bukitnya, semakin mudah reaksi berjalan.</p>
+  <figure class="fig">
+    <svg viewBox="0 0 520 260" role="img" aria-label="Diagram energi reaksi dengan dan tanpa katalis">
+      <defs><marker id="ah" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 z" fill="#8a4fe0"/></marker></defs>
+      <line x1="50" y1="20" x2="50" y2="232" stroke="#151834" stroke-width="2.5" stroke-linecap="round" style="stroke:var(--ink)"/>
+      <line x1="50" y1="232" x2="500" y2="232" stroke="#151834" stroke-width="2.5" stroke-linecap="round" style="stroke:var(--ink)"/>
+      <text x="14" y="126" font-size="13" font-weight="800" transform="rotate(-90 14 126)" text-anchor="middle">Energi</text>
+      <text x="275" y="252" font-size="13" font-weight="800" text-anchor="middle">Jalannya reaksi</text>
+      <line x1="120" y1="150" x2="470" y2="150" stroke="#8a4fe0" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <line x1="240" y1="40" x2="420" y2="40" stroke="#8a4fe0" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <line x1="235" y1="100" x2="450" y2="100" stroke="#0fa77c" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <path d="M60 150 H120 C170 150 180 40 240 40 C300 40 310 200 360 200 H470" fill="none" stroke="#f2455c" stroke-width="4" stroke-linecap="round"/>
+      <path d="M120 150 C160 150 175 100 235 100 C295 100 305 200 360 200" fill="none" stroke="#0fa77c" stroke-width="4" stroke-dasharray="9 6" stroke-linecap="round"/>
+      <line x1="415" y1="150" x2="415" y2="42" stroke="#8a4fe0" stroke-width="2.5" marker-start="url(#ah)" marker-end="url(#ah)"/>
+      <line x1="445" y1="150" x2="445" y2="102" stroke="#0fa77c" stroke-width="2.5"/>
+      <line x1="486" y1="152" x2="486" y2="198" stroke="#8a4fe0" stroke-width="2.5" marker-start="url(#ah)" marker-end="url(#ah)"/>
+      <g font-size="15" font-weight="800">
+        <circle cx="398" cy="96" r="12" fill="#ffc21a" stroke="#151834" stroke-width="2"/><text x="398" y="101" text-anchor="middle" style="fill:#151834">P</text>
+        <circle cx="462" cy="126" r="12" fill="#ffc21a" stroke="#151834" stroke-width="2"/><text x="462" y="131" text-anchor="middle" style="fill:#151834">Q</text>
+        <circle cx="502" cy="176" r="10" fill="#ffc21a" stroke="#151834" stroke-width="2"/><text x="502" y="181" text-anchor="middle" style="fill:#151834">R</text>
+        <circle cx="215" cy="84" r="12" fill="#ffc21a" stroke="#151834" stroke-width="2"/><text x="215" y="89" text-anchor="middle" style="fill:#151834">S</text>
+      </g>
+      <text x="82" y="140" font-size="12">Pereaksi</text>
+      <text x="380" y="222" font-size="12">Produk</text>
+      <text x="90" y="74" font-size="12" style="fill:#f2455c">Tanpa katalis</text>
+      <text x="90" y="92" font-size="12" style="fill:#0fa77c">Dengan katalis (putus-putus)</text>
+    </svg>
+    <figcaption>Huruf P, Q, R, dan S adalah bagian diagram yang akan kamu identifikasi.</figcaption>
+  </figure>
+  <div class="q"><div class="qt"><b class="no">5.1</b>Apa yang ditunjukkan oleh P, Q, R, dan S?</div><textarea class="ans"></textarea>
+    <div class="key">P: energi aktivasi tanpa katalis. Q: energi aktivasi dengan katalis (lebih kecil). R: perubahan entalpi (ΔH), sama untuk kedua jalur. S: keadaan transisi / puncak energi tanpa katalis, yaitu titik tertinggi jalur tanpa katalis.</div></div>
+  <div class="q"><div class="qt"><b class="no">5.2</b>Apakah reaksi pada diagram eksoterm atau endoterm? Jelaskan dari letak pereaksi dan produk. Apakah katalis mengubah ΔH?</div><textarea class="ans short"></textarea>
+    <div class="key">Eksoterm, karena produk berenergi lebih rendah daripada pereaksi (ΔH negatif). Katalis tidak mengubah ΔH, hanya menurunkan Ea.</div></div>
+  <div class="q"><div class="qt"><b class="no">5.3</b>Jelaskan mengapa katalis mempercepat reaksi, memakai teori tumbukan. Lalu beri dua contoh katalis di sekitarmu (petunjuk: di tubuhmu dan di knalpot kendaraan).</div><textarea class="ans"></textarea>
+    <div class="key">Katalis membuka jalur dengan Ea lebih rendah, sehingga lebih banyak tumbukan yang energinya cukup dan laju naik. Contoh: enzim di air liur dan perut, katalis konverter di knalpot yang mengubah CO dan NOx menjadi CO₂ dan N₂, enzim ragi pada pembuatan tempe dan tape.</div></div>
+</section>
+
+<!-- MISI 6 -->
+<section class="misi m6" id="misi6">
+  <div class="mhead"><span class="badge">Misi 6</span><h2>Peta faktor laju reaksi</h2></div>
+  <p class="lead">Lengkapi tabel ini. Sel berwarna sudah diisi sebagai contoh. Sel bergaris putus-putus adalah tugasmu.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Faktor dinaikkan</th><th>Yang berubah pada partikel</th><th>Dampak pada tumbukan</th><th>Contoh di sekitarmu</th></tr></thead>
+    <tbody>
+      <tr><td class="pre">Konsentrasi</td><td class="pre">Jumlah partikel dalam tiap satuan volume bertambah.</td><td><textarea class="cell"></textarea></td><td><textarea class="cell"></textarea></td></tr>
+      <tr><td class="pre">Luas permukaan</td><td><textarea class="cell"></textarea></td><td class="pre">Peluang partikel bertemu bertambah, tumbukan lebih sering.</td><td><textarea class="cell"></textarea></td></tr>
+      <tr><td class="pre">Suhu</td><td><textarea class="cell"></textarea></td><td><textarea class="cell"></textarea></td><td class="pre">Tablet effervescent lebih cepat larut di air hangat.</td></tr>
+      <tr><td class="pre">Katalis</td><td><textarea class="cell"></textarea></td><td><textarea class="cell"></textarea></td><td><textarea class="cell"></textarea></td></tr>
+    </tbody>
+  </table></div>
+  <div class="key" style="margin-bottom:16px">Konsentrasi: tumbukan lebih sering, kipas arang menambah O₂. Luas permukaan: partikel di permukaan lebih banyak terbuka, contoh kentang dipotong kecil. Suhu: partikel bergerak lebih cepat, lebih banyak partikel berenergi ≥ Ea, tumbukan lebih sering dan lebih banyak yang efektif. Katalis: jalur baru dengan Ea lebih rendah, lebih banyak tumbukan efektif, contoh enzim atau konverter katalitik.</div>
+  <div class="q"><div class="qt"><b class="no">6.1</b>Di antara empat faktor, mana yang mengubah <i>energi</i> tumbukan dan mana yang hanya mengubah <i>frekuensi</i> tumbukan? Jelaskan singkat.</div><textarea class="ans"></textarea>
+    <div class="key">Suhu dan katalis memengaruhi energi (fraksi tumbukan yang mencapai Ea). Konsentrasi dan luas permukaan hanya menambah frekuensi tumbukan. Suhu juga sedikit menaikkan frekuensi.</div></div>
+</section>
+
+<!-- MISI 7 -->
+<section class="misi m7" id="misi7">
+  <div class="mhead"><span class="badge">Misi 7</span><h2>Tantangan berpikir kritis</h2></div>
+  <p class="lead">Terapkan pemahamanmu pada masalah nyata. Tulis penalaran lengkap, bukan hanya jawaban akhir.</p>
+
+  <div class="q"><div class="qt"><b class="no">7.1</b>Sebuah tablet vitamin C effervescent larut sempurna dalam <b>80 detik</b> pada air <b>20 °C</b>. Jika setiap kenaikan 10 °C laju reaksi menjadi 2 kali lebih cepat, berapa waktu larut pada air 40 °C dan 60 °C? Tulis langkah hitungnya.</div><textarea class="ans"></textarea>
+    <div class="key">Waktu berbanding terbalik dengan laju: t₂ = t₁ ÷ 2^((T₂−T₁)/10). Pada 40 °C: kenaikan 20 °C berarti laju 2² = 4 kali, t = 80 ÷ 4 = 20 detik. Pada 60 °C: kenaikan 40 °C berarti laju 2⁴ = 16 kali, t = 80 ÷ 16 = 5 detik. Aturan ini pendekatan empiris untuk banyak reaksi.</div></div>
+
+  <div class="q"><div class="qt"><b class="no">7.2</b><b>Warung sate Bang Jaka.</b> Bang Jaka membelah arang jadi potongan kecil, menyusunnya rapat, lalu mengipasinya. Api langsung membara. Sebutkan dua faktor laju reaksi yang ia manfaatkan dan jelaskan tiap faktor dengan teori tumbukan.</div><textarea class="ans"></textarea>
+    <div class="key">Luas permukaan: arang kecil membuat lebih banyak permukaan bersentuhan dengan O₂. Konsentrasi O₂: kipas menyuplai udara segar sehingga partikel O₂ per volume lebih banyak. Keduanya menaikkan frekuensi tumbukan efektif.</div></div>
+
+  <div class="q"><div class="qt"><b class="no">7.3</b><b>Kulkas anak kos.</b> Rani bilang sayur di kulkas layu lebih lambat. Ia menduga kulkas "mengunci kesegaran". Koreksi dugaan itu: jelaskan dengan teori tumbukan apa yang sebenarnya terjadi pada reaksi pembusukan di dalam kulkas.</div><textarea class="ans"></textarea>
+    <div class="key">Suhu rendah membuat partikel dan enzim bergerak lebih lambat, sehingga lebih sedikit tumbukan yang energinya ≥ Ea. Laju reaksi pembusukan turun, tetapi tidak berhenti. Kulkas memperlambat, bukan menghentikan.</div></div>
+
+  <div class="q"><div class="qt"><b class="no">7.4</b><b>Rancang eksperimenmu.</b> Buat rancangan percobaan sederhana di rumah untuk menguji bahwa suhu air memengaruhi kecepatan tablet effervescent (atau antasida) larut. Isi tabel di bawah.</div>
+    <div class="tablewrap"><table>
+      <tbody>
+        <tr><td class="pre" style="width:34%">Variabel bebas</td><td><input class="cell" type="text"></td></tr>
+        <tr><td class="pre">Variabel terikat</td><td><input class="cell" type="text"></td></tr>
+        <tr><td class="pre">Variabel kontrol (minimal 3)</td><td><input class="cell" type="text"></td></tr>
+        <tr><td class="pre">Alat dan bahan</td><td><textarea class="cell"></textarea></td></tr>
+        <tr><td class="pre">Langkah kerja</td><td><textarea class="cell" style="min-height:96px"></textarea></td></tr>
+        <tr><td class="pre">Prediksi hasil dan alasannya</td><td><textarea class="cell"></textarea></td></tr>
+      </tbody>
+    </table></div>
+    <div class="key">Bebas: suhu air (mis. dingin, suhu ruang, hangat). Terikat: waktu tablet larut sempurna. Kontrol: volume air, jenis dan massa tablet, wadah, cara pengukuran waktu, tanpa diaduk. Prediksi: makin hangat, makin cepat larut, karena partikel lebih energik sehingga lebih banyak tumbukan efektif. Keselamatan: gunakan air hangat, bukan mendidih.</div></div>
+</section>
+
+<!-- REFLEKSI -->
+<section class="info" id="refleksi">
+  <div class="mhead"><h2>Kesimpulan dan refleksi</h2></div>
+  <div class="q"><div class="qt">Tulis kesimpulanmu: sebutkan tiga syarat tumbukan efektif dan empat faktor yang memengaruhi laju reaksi, lengkap dengan alasannya.</div><textarea class="ans"></textarea>
+    <div class="key">Tiga syarat: bertumbukan, energi ≥ Ea, orientasi tepat. Empat faktor: konsentrasi, luas permukaan (menambah frekuensi tumbukan), suhu (menambah frekuensi dan terutama energi), katalis (menurunkan Ea).</div></div>
+  <div class="q"><div class="qt">Kejadian sehari-hari apa yang sekarang bisa kamu jelaskan dengan cara berbeda dibanding sebelum mengerjakan LKPD ini?</div><textarea class="ans short"></textarea></div>
+  <div class="q"><div class="qt">Bagian mana yang masih membingungkan dan ingin kamu tanyakan?</div><textarea class="ans short"></textarea></div>
+  <div class="selfcheck">
+    <p style="font-weight:800;margin-bottom:4px">Centang yang sudah kamu kuasai:</p>
+    <label><input type="checkbox" class="chk"> Saya bisa menyebut dan menjelaskan tiga syarat tumbukan efektif.</label>
+    <label><input type="checkbox" class="chk"> Saya bisa menjelaskan pengaruh konsentrasi dan luas permukaan dengan teori tumbukan.</label>
+    <label><input type="checkbox" class="chk"> Saya bisa menjelaskan pengaruh suhu dan katalis dengan energi aktivasi.</label>
+    <label><input type="checkbox" class="chk"> Saya bisa menghitung perubahan waktu reaksi akibat perubahan suhu.</label>
+    <label><input type="checkbox" class="chk"> Saya bisa mengaitkan konsep ini dengan kejadian sehari-hari.</label>
+  </div>
+</section>
+
+<div class="foot">LKPD Kimia Kelas XI · Fase F · Laju reaksi dan teori tumbukan. Simulasi bersifat model sederhana untuk pembelajaran.</div>
+</main>
+
+<script>
+/* ========== Tampilan: mode guru, cetak ========== */
+(function(){
+  var bt=document.getElementById('btnTeacher');
+  bt.addEventListener('click',function(){
+    var on=document.body.classList.toggle('teacher');
+    bt.setAttribute('aria-pressed',on?'true':'false');
+    bt.textContent=on?'Sembunyikan kunci':'Mode guru';
+  });
+  document.getElementById('btnPrint').addEventListener('click',function(){window.print();});
+})();
+
+/* ========== Simpan isian (opsional, aman jika penyimpanan gagal) ========== */
+(function(){
+  var fields=[].slice.call(document.querySelectorAll('.ans,.cell,.ident,.chk'));
+  var KEY='lkpd-tumbukan-v1', saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){saved={};}
+  fields.forEach(function(el,i){
+    var v=saved[i];
+    if(v!==undefined){ if(el.type==='checkbox'){el.checked=!!v;} else {el.value=v;} }
+    el.addEventListener('input',function(){
+      saved[i]=(el.type==='checkbox')?el.checked:el.value;
+      try{localStorage.setItem(KEY,JSON.stringify(saved));}catch(e){}
+    });
+  });
+})();
+
+/* ========== Lab virtual tumbukan ========== */
+(function(){
+  var cv=document.getElementById('sim'), ctx=cv.getContext('2d');
+  var W=640,H=360,dpr=Math.min(window.devicePixelRatio||1,2);
+  cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+  var R=9, S0=90, THRESH=2.25*4*S0*S0, TS=1.5;
+  var temp=40, conc=20, cat=false, paused=false;
+  var parts=[], flashes=[], st={tot:0,eff:0,noE:0,noO:0};
+  var measuring=false, tLeft=0, MEAS=15;
+  var $=function(id){return document.getElementById(id);};
+
+  function gauss(){var u=0,v=0;while(!u)u=Math.random();while(!v)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+  function sigma(){return Math.pow((temp+273)/293,2);}
+  function mk(t){
+    return {t:t,x:R+Math.random()*(W-2*R),y:R+Math.random()*(H-2*R),ux:gauss()*S0,uy:gauss()*S0,
+      ang:Math.random()*6.283,om:(Math.random()<.5?-1:1)*(1.5+Math.random()*2.5),cool:0};
+  }
+  function build(){parts=[];for(var i=0;i<conc;i++){parts.push(mk('A'));parts.push(mk('B'));}}
+  function resetStats(){st={tot:0,eff:0,noE:0,noO:0};flashes=[];showStats();}
+  function showStats(){
+    $('sTot').textContent=st.tot;$('sEff').textContent=st.eff;$('sNoE').textContent=st.noE;$('sNoO').textContent=st.noO;
+    $('sPct').textContent=(st.tot?Math.round(st.eff/st.tot*100):0)+'%';
+  }
+  function angDiff(a,b){var d=Math.abs(a-b)%6.283185;return d>3.141593?6.283185-d:d;}
+
+  function collide(p,q){
+    var dx=p.x-q.x, dy=p.y-q.y, d2=dx*dx+dy*dy, min=2*R;
+    if(d2>=min*min||d2===0) return;
+    var d=Math.sqrt(d2), nx=dx/d, ny=dy/d;
+    var rel=(p.ux-q.ux)*nx+(p.uy-q.uy)*ny;
+    var ov=(min-d)/2; p.x+=nx*ov;p.y+=ny*ov;q.x-=nx*ov;q.y-=ny*ov;
+    if(rel>=0) return;
+    var sg=sigma();
+    var vr2=((p.ux-q.ux)*(p.ux-q.ux)+(p.uy-q.uy)*(p.uy-q.uy))*sg*sg;
+    p.ux-=rel*nx;p.uy-=rel*ny;q.ux+=rel*nx;q.uy+=rel*ny;
+    if(p.t===q.t) return;
+    var mx=(p.x+q.x)/2,my=(p.y+q.y)/2;
+    st.tot++;
+    var th=THRESH*(cat?0.55:1);
+    var toQ=Math.atan2(q.y-p.y,q.x-p.x), toP=toQ+Math.PI, tol=Math.PI*150/360;
+    var okE=vr2>=th, okO=angDiff(p.ang,toQ)<=tol&&angDiff(q.ang,toP)<=tol;
+    if(!okE){st.noE++;flashes.push({x:mx,y:my,a:0,c:'#ff7b8d',txt:''});}
+    else if(!okO){st.noO++;flashes.push({x:mx,y:my,a:0,c:'#ffd24d',txt:''});}
+    else{st.eff++;flashes.push({x:mx,y:my,a:0,c:'#3ddbab',txt:'bereaksi!'});p.cool=0.9;q.cool=0.9;}
+    showStats();
+  }
+
+  function update(dt){
+    var sg=sigma(),i,j,p;
+    for(i=0;i<parts.length;i++){
+      p=parts[i];
+      p.x+=p.ux*sg*dt; p.y+=p.uy*sg*dt; p.ang+=p.om*dt;
+      if(p.x<R){p.x=R;p.ux=Math.abs(p.ux);} if(p.x>W-R){p.x=W-R;p.ux=-Math.abs(p.ux);}
+      if(p.y<R){p.y=R;p.uy=Math.abs(p.uy);} if(p.y>H-R){p.y=H-R;p.uy=-Math.abs(p.uy);}
+      if(p.cool>0)p.cool-=dt;
+    }
+    for(i=0;i<parts.length;i++){for(j=i+1;j<parts.length;j++){
+      if(parts[i].cool>0||parts[j].cool>0)continue;
+      collide(parts[i],parts[j]);
+    }}
+    for(i=flashes.length-1;i>=0;i--){flashes[i].a+=dt;if(flashes[i].a>0.6)flashes.splice(i,1);}
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    var i,p,f;
+    for(i=0;i<flashes.length;i++){
+      f=flashes[i];var k=f.a/0.6;
+      ctx.globalAlpha=1-k;ctx.strokeStyle=f.c;ctx.lineWidth=3;
+      ctx.beginPath();ctx.arc(f.x,f.y,R+k*26,0,6.283);ctx.stroke();
+      if(f.txt){ctx.fillStyle=f.c;ctx.font='800 13px "Nunito Sans",Arial,sans-serif';ctx.textAlign='center';ctx.fillText(f.txt,f.x,f.y-R-8-k*10);}
+    }
+    ctx.globalAlpha=1;
+    for(i=0;i<parts.length;i++){
+      p=parts[i];
+      ctx.fillStyle=p.cool>0?'#12b886':(p.t==='A'?'#3d7bff':'#ff9f1c');
+      ctx.beginPath();ctx.arc(p.x,p.y,R,0,6.283);ctx.fill();
+      ctx.lineWidth=1.5;ctx.strokeStyle='rgba(255,255,255,.85)';ctx.stroke();
+      ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(p.x+Math.cos(p.ang)*R*0.62,p.y+Math.sin(p.ang)*R*0.62,2.6,0,6.283);ctx.fill();
+    }
+  }
+
+  var last=0;
+  function loop(ts){
+    var dt=Math.min((ts-last)/1000||0,0.05); last=ts;
+    if(!paused){
+      update(dt*TS);
+      if(measuring){
+        tLeft-=dt;
+        if(tLeft<=0){
+          measuring=false; tLeft=0;
+          $('bMeasure').disabled=false;
+          $('tTimer').textContent='Selesai';
+          var b=$('rBox');
+          b.textContent='Hasil: '+st.eff+' tumbukan efektif dari '+st.tot+' tumbukan dalam '+MEAS+' detik. Laju = '+(st.eff/MEAS).toFixed(2)+' per detik. Catat di tabel!';
+          b.classList.add('on');
+        } else {
+          $('tTimer').textContent='Mengukur… '+Math.ceil(tLeft)+' detik';
+        }
+      }
+    }
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  function onChange(){resetStats();$('rBox').classList.remove('on');measuring=false;$('bMeasure').disabled=false;$('tTimer').textContent='';}
+  $('cTemp').addEventListener('input',function(e){temp=+e.target.value;$('oTemp').textContent=temp;onChange();});
+  $('cConc').addEventListener('input',function(e){conc=+e.target.value;$('oConc').textContent=conc;build();onChange();});
+  $('cCat').addEventListener('change',function(e){cat=e.target.checked;onChange();});
+  $('bReset').addEventListener('click',onChange);
+  $('bPause').addEventListener('click',function(e){paused=!paused;e.target.textContent=paused?'Lanjut':'Jeda';});
+  $('bMeasure').addEventListener('click',function(){
+    resetStats();$('rBox').classList.remove('on');
+    measuring=true;tLeft=MEAS;$('bMeasure').disabled=true;
+    if(paused){paused=false;$('bPause').textContent='Jeda';}
+  });
+  build();showStats();requestAnimationFrame(loop);
+})();
+
+/* ========== Kubus dibelah ========== */
+(function(){
+  var svg=document.getElementById('cubeSvg'), NS='http://www.w3.org/2000/svg';
+  function ln(x1,y1,x2,y2){return '<line x1="'+x1+'" y1="'+y1+'" x2="'+x2+'" y2="'+y2+'"/>';}
+  function render(k){
+    var f=[],t=[],r=[],i,a;
+    for(i=0;i<=k;i++){
+      a=i/k;
+      f.push(ln(10+160*a,50,10+160*a,210),ln(10,50+160*a,170,50+160*a));
+      t.push(ln(10+40*a,50-40*a,170+40*a,50-40*a),ln(10+160*a,50,50+160*a,10));
+      r.push(ln(170,50+160*a,210,10+160*a),ln(170+40*a,50-40*a,170+40*a,210-40*a));
+    }
+    svg.innerHTML=
+      '<polygon points="10,50 50,10 210,10 170,50" fill="#ffd96a" stroke="#151834" stroke-width="3"/>'+
+      '<polygon points="170,50 210,10 210,170 170,210" fill="#f0a500" stroke="#151834" stroke-width="3"/>'+
+      '<rect x="10" y="50" width="160" height="160" fill="#ffc21a" stroke="#151834" stroke-width="3"/>'+
+      '<g stroke="#151834" stroke-width="'+(k>=8?0.8:1.4)+'" opacity=".75">'+f.join('')+t.join('')+r.join('')+'</g>'+
+      '<text x="90" y="226" text-anchor="middle" font-size="12" font-family="Nunito Sans,Arial,sans-serif" style="fill:var(--ink)">sisi awal 4 cm</text>';
+    document.getElementById('cN').textContent=(k*k*k).toLocaleString('id-ID');
+    var s=4/k;
+    document.getElementById('cS').textContent=(s%1===0?s:s.toString().replace('.',','))+' cm';
+    document.getElementById('cA').textContent=(96*k).toLocaleString('id-ID')+' cm²';
+    document.getElementById('cX').textContent=k+'×';
+  }
+  var btns=[].slice.call(document.querySelectorAll('.kbtns .btn'));
+  btns.forEach(function(b){b.addEventListener('click',function(){
+    btns.forEach(function(o){o.setAttribute('aria-pressed',o===b?'true':'false');});
+    render(+b.getAttribute('data-k'));
+  });});
+  render(1);
+})();
+</script>
+</body>
+</html>
